@@ -1,0 +1,162 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+html{
+    background-color: white;
+}
+
+body {
+    width: 300px;
+    height: 500px;
+    /* border-style: dotted; */
+    background-color: rgba(66,66,68,255);
+    display: flex;
+    flex-direction: column;
+}
+
+body .heading{
+    /* width:100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:1rem;
+    background-color: rgb(43, 43, 43);
+}
+
+h1{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+body .main{ 
+    height:100%;
+    /* border-style: dotted; */
+    position: relative;
+    overflow: hidden;
+}
+
+body .main .error-modal{
+    position: absolute;
+    z-index: 100;
+    /* border-style: dotted; */
+    background-color: rgb(205, 125, 125);
+    padding: 1rem;
+    border-radius: 1rem;
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+}
+
+body .main .error-modal .error-message{
+    font-size: 1rem;
+}
+
+/* input for site details */
+
+body .footing .enter{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(43, 43, 43);
+    padding:0.5rem;
+}
+
+body .footing .enter input{
+    width: 100%;
+    height: 3rem;
+    border: none;
+    padding: 0.5rem;
+    /* margin: 0.5rem; */
+    background-color: transparent;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+body .footing .enter input:focus{
+    border-bottom: 1px solid white;
+}
+/* =-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+/* display list entries css */
+
+body .main .list{
+    height: 100%;
+    /* border-style: dotted; */
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body .main .list .listItem *{
+    color: rgb(255, 255, 255);
+}
+
+body .main .list .listItem:hover{
+    opacity: 1;
+}
+
+body .main .list .listItem{
+    /* border-style: dotted; */
+    border-radius: 1rem;
+    background-color: rgb(43, 43, 43);
+    /* width: 100%; */
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0.5rem 0rem 0.5rem;
+    opacity: 0.5;
+    overflow: hidden;
+}
+body .main .list .listItem .listSite{
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+
+body .main .list .listItem .listHeader h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: -0.4rem;
+}
+
+body .main .list .listItem .listHeader p{
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgb(158, 158, 158);
+    font-style: italic;
+}
+
+
+/* scrollbar css */
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+   
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(52, 52, 52); 
+    border-radius: 10px;
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #2d2d2d; 
+} 
+
+
+
+
+
+

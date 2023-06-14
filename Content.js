@@ -1,3 +1,8 @@
+const redirect_user = (URL) => {
+    console.log("redirecting user")
+    // window.location.assign(URL)
+}
+
 console.log('HaoChiBlock 0')
 
 // const HOSTNAME = window.location.hostname;
@@ -12,7 +17,7 @@ let direction = 'https://impact.codeninjas.com'
 let whitelist = true;
 const URLLIST = [
     direction,
-    "https://docs.google.com/document/d/1CGP_ftXjPywUPJnuh7piyjvhRqqiOL6HJ1Y9hjJlA1I/edit"
+    "https://docs.google.com/document/d/1CGP_ftXjPywUPJnuh7piyjvhRqqiOL6HJ1Y9hjJlA1I/edit",
 ];
 
 let redirect = true
@@ -31,7 +36,7 @@ for(let i = 0; i <  URLLIST.length; i ++){
 }
 
 if(redirect){
-    window.location.assign(direction)
+    redirect_user(direction)
 }
 
 console.log('HaoChiBlock 1')
