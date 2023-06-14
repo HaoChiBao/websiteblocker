@@ -1,105 +1,138 @@
+// import BlockedSite from "./BlockedSite";
 const t0 = performance.now();
-
-const addedSites = []; //local storage input etc
-
-const isValidUrl = (string) => {
-    try {
-      new URL(string);
-      return true;
-    } catch (err) {
-      return false;
-    }
-}
-
-const sendErrorMsg = (msg) => {
-    const ERROR_MODAL = document.querySelector('.error-modal');
-    const ERROR_MSG = document.querySelector('.error-message');
-    ERROR_MSG.innerText = msg;
-    ERROR_MSG.style.display = 'block';
-
-    ERROR_MODAL.style.opacity = 1;
-    setTimeout(() => {
-        ERROR_MODAL.style.opacity = 0;
-    }, 1 * 1000)
-
-    return 1
-}
-
-const addBlockedSite = () => {
-    // get the site from the input
-    const site = document.querySelector('#site').value;
-
-    console.log(isValidUrl(site))
-    if( site == '') {
-        sendErrorMsg('please enter a site')
-        return 0
-    } else if (!isValidUrl(site)) {
-        sendErrorMsg('not a valid site')
-        return 0
-    }
-
-    // get the date added
-    const date = {
-        year: new Date().getFullYear(),
-        month: new Date().getMonth(),
-        day: new Date().getDate(),
-    }
-    
-    console.log(date)
-    addToList('unamed',site, date)
-    return 1
-}
-
-// add site to the list
-const addToList = (name, site, date) => {
-    
-    // parent list element
-    const LIST = document.querySelector('.list');
-
-    // create the list item
-    const itemBody = document.createElement('div');
-    itemBody.className = 'listItem';
-
-    const itemHeader = document.createElement('div');
-    itemHeader.className = 'listHeader';
-
-    // add item details
-    const itemTitle = document.createElement('h3');
-    const itemDate = document.createElement('p');
-    const itemSite = document.createElement('div');
-
-    itemTitle.innerText = name;
-    itemDate.innerText = `${date.month}/${date.day}/${date.year}`;
-
-    itemSite.className = 'listSite';
-    itemSite.innerText = site;
-
-    // append the item details to the item header
-    itemHeader.appendChild(itemTitle);
-    itemHeader.appendChild(itemDate);
-
-    itemBody.appendChild(itemHeader);
-    itemBody.appendChild(itemSite);
-
-
-    LIST.appendChild(itemBody);
-
-    itemBody.addEventListener('click', () => {
-        window.open(site);
+// console.log(0)
+// instantiate previous saved sites
+const inject = async () => {
+    // await chrome.storage.local.set({"blockedSites": []}, function() {});
+    let localSites = await chrome.storage.local.get(["blockedSites"]).then((result) => {
+        console.log(result.blockedSites)
+        return result.blockedSites
     })
+    
+    if(localSites===null || localSites==='undefined' || localSites==='' || localSites===undefined){
+        console.log('no local sites found')
+        
+        // localStorage.setItem('blockedSites', JSON.stringify([]));
+        await chrome.storage.local.set({"blockedSites": []}, function() {});
+    
+        localSites = await chrome.storage.local.get(["blockedSites"]).then((result) => {
+            return result.blockedSites
+        })
+    } 
+    
+    console.log(localSites)
+    
+    const isValidUrl = (string) => {
+        try {
+          new URL(string);
+          return true;
+        } catch (err) {
+          return false;
+        }
+    }
+    
+    const sendErrorMsg = (msg) => {
+        const ERROR_MODAL = document.querySelector('.error-modal');
+        const ERROR_MSG = document.querySelector('.error-message');
+        ERROR_MSG.innerText = msg;
+        ERROR_MSG.style.display = 'block';
+    
+        ERROR_MODAL.style.opacity = 1;
+        setTimeout(() => {
+            ERROR_MODAL.style.opacity = 0;
+        }, 1 * 1000)
+    
+        return 1
+    }
+    
+    const addBlockedSite = async () => {
+        // get the site from the input
+        const inputElement = document.querySelector('#site');
+        const site = inputElement.value;
+    
+        inputElement.value = ''
+    
+        console.log(isValidUrl(site))
+        if( site == '') {
+            sendErrorMsg('please enter a site')
+            return 0
+        } else if (!isValidUrl(site)) {
+            sendErrorMsg('not a valid site')
+            return 0
+        }
+    
+        const blockedSite = new BlockedSite(site);
+        
+        localSites.push(blockedSite);
+        // localStorage.setItem('blockedSites', JSON.stringify(localSites));
+        await chrome.storage.local.set({"blockedSites": localSites}, function() {});
+
+        addToList(blockedSite)
+        return 1
+    }
+    
+    // add site to the list
+    const addToList = (blockedSite) => {
+    
+        const name = blockedSite.title;
+        const site = blockedSite.site;
+        const date = blockedSite.date;
+        
+        // parent list element
+        const LIST = document.querySelector('.list');
+    
+        // create the list item
+        const itemBody = document.createElement('div');
+        itemBody.className = 'listItem';
+    
+        const itemHeader = document.createElement('div');
+        itemHeader.className = 'listHeader';
+    
+        // add item details
+        const itemTitle = document.createElement('h3');
+        const itemDate = document.createElement('p');
+        const itemSite = document.createElement('div');
+    
+        itemTitle.innerText = name;
+        itemDate.innerText = `${date.month}/${date.day}/${date.year}`;
+    
+        itemSite.className = 'listSite';
+        itemSite.innerText = site;
+    
+        // append the item details to the item header
+        itemHeader.appendChild(itemTitle);
+        itemHeader.appendChild(itemDate);
+    
+        itemBody.appendChild(itemHeader);
+        itemBody.appendChild(itemSite);
+    
+        LIST.appendChild(itemBody);
+    
+        itemBody.addEventListener('click', () => {
+            window.open(site);
+        })
+    }
+    
+    // add a submit on enter by user
+    window.addEventListener('keydown', (event) => {
+        if(event.key == 'Enter'){
+            addBlockedSite()
+        }
+    })
+    
+    window.onload = () => {
+        
+        if(localSites.length > 0){
+            localSites.forEach(site => {
+                addToList(site)
+            })
+        }
+    
+    }
+    
 }
 
-// add a submit on enter by user
-window.addEventListener('keydown', (event) => {
-    if(event.key == 'Enter'){
-        addBlockedSite()
-    }
-})
-
-
-
-
-
+inject()
 
 
 // test how long it takes to instantiate the script
