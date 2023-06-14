@@ -98,18 +98,72 @@ const inject = async () => {
     
         itemSite.className = 'listSite';
         itemSite.innerText = site;
-    
+        
+        const listButtons = document.createElement('div');
+        listButtons.className = 'listButtons';
+
+        const editButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
+
+        editButton.className = 'listButton';
+        deleteButton.className = 'listButton';
+        const editImg = document.createElement('img');
+        const deleteImg = document.createElement('img');
+
+        editImg.src = './images/edit.png';
+        editImg.alt = 'edit';
+        deleteImg.src = './images/delete.png';
+        deleteImg.alt = 'delete';
+
+        editButton.appendChild(editImg);
+        deleteButton.appendChild(deleteImg);
+
+        listButtons.appendChild(editButton);
+        listButtons.appendChild(deleteButton);
+
+        deleteButton.addEventListener('click', () => {
+            deleteSiteFromList(site)
+        })
+        
         // append the item details to the item header
         itemHeader.appendChild(itemTitle);
         itemHeader.appendChild(itemDate);
     
         itemBody.appendChild(itemHeader);
         itemBody.appendChild(itemSite);
+        itemBody.appendChild(listButtons);
     
         LIST.appendChild(itemBody);
     
-        itemBody.addEventListener('click', () => {
+        itemBody.addEventListener('click', (e) => {
+            const elements = document.elementsFromPoint(e.clientX, e.clientY);
+            for(let i = 0; i < elements.length; i++){
+                if(elements[i].className == 'listButton'){
+                    return 0
+                }
+            }
             window.open(site);
+        })
+    }
+
+    const deleteSiteFromList = async (site) => {
+        let newSites = []
+        for(let i = 0 ; i < localSites.length; i++){
+            const currentSite = localSites[i];
+            if(currentSite.site != site){
+                newSites.push(currentSite)
+            }
+        }
+        localSites = newSites
+        await chrome.storage.local.set({"blockedSites": localSites}, function() {});
+        updateSiteInList()
+    }
+
+    const updateSiteInList = () => {
+        const LIST = document.querySelector('.list');
+        LIST.innerHTML = ''
+        localSites.forEach(site => {
+            addToList(site)
         })
     }
     

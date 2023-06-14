@@ -106,23 +106,63 @@ body .main .list .listItem:hover{
 
 body .main .list .listItem{
     /* border-style: dotted; */
+    position: relative;
     border-radius: 1rem;
     background-color: rgb(43, 43, 43);
     /* width: 100%; */
     padding: 0.5rem 1rem;
     margin: 0.5rem 0.5rem 0rem 0.5rem;
     opacity: 0.5;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
+body .main .list .listItem .listButtons{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0.5rem;
+}
+
+body .main .list .listItem .listButtons button{
+    background-color: transparent;
+    overflow: hidden;
+    
+    /* border: 1px solid white; */
+    border:none;
+    border-radius: 0.2rem;
+    
+    aspect-ratio: 1/1;
+    height: 1.2rem;
+    
+    outline: none;
+    cursor: pointer;
+    
+    margin: 0.2rem;
+    padding: 0.1rem;
+}
+
+body .main .list .listItem .listButtons button img{
+    pointer-events: none;
+    width: 100%;
+    filter: invert(1);
+}
+
 body .main .list .listItem .listSite{
     font-size: 0.8rem;
     font-weight: 300;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 body .main .list .listItem .listHeader h3{
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: -0.4rem;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 body .main .list .listItem .listHeader p{
@@ -136,7 +176,7 @@ body .main .list .listItem .listHeader p{
 /* scrollbar css */
 
 ::-webkit-scrollbar {
-    width: 15px;
+    width: 10px;
 }
   
   /* Track */

@@ -18,7 +18,7 @@ let whitelist = true;
 
 // const URLLIST = [direction];
 chrome.storage.local.get(["blockedSites"]).then((result) => {
-    let URLLIST = [];
+    let URLLIST = [direction];
 
     if(result.blockedSites.length > 0){
         result.blockedSites.forEach((site) => {
