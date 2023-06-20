@@ -137,11 +137,14 @@ const inject = async () => {
     
         itemBody.addEventListener('click', (e) => {
             const elements = document.elementsFromPoint(e.clientX, e.clientY);
+            console.log(elements)
             for(let i = 0; i < elements.length; i++){
                 if(elements[i].className == 'listButton'){
+                    console.log('button clicked')
                     return 0
                 }
             }
+            console.log('opening site')
             window.open(site);
         })
     }
@@ -166,20 +169,64 @@ const inject = async () => {
             addToList(site)
         })
     }
+
+    const signin = async (username, password) => {
+        
+        const HIDE_LOCK =  () => {
+            const LOCK = document.querySelector('.lock')
+            LOCK.style.opacity = 0;
+            LOCK.style.zIndex = -1000;
+            LOCK.style.pointerEvents = 'none';
+        }
+
+        // preset password and username for now
+        const USERNAME = 'admin';
+        const PASSWORD = 'codeninjas123';
+        
+        HIDE_LOCK()
+        if(username == USERNAME && password == PASSWORD){
+            HIDE_LOCK()
+            return true
+        } 
+        return false
+    }
     
     // add a submit on enter by user
-    window.addEventListener('keydown', (event) => {
-        if(event.key == 'Enter'){
-            addBlockedSite()
-        }
-    })
     
     window.onload = () => {
-        
+        console.log('loading blocker details')
         if(localSites.length > 0){
             localSites.forEach(site => {
                 addToList(site)
             })
+        }
+
+        try{
+            // add a submit on enter by user for adding a site
+            const ADD_SITE = document.querySelector('input#site');
+            console.log(ADD_SITE)
+            ADD_SITE.addEventListener('keydown', (event) => {
+                if(event.key == 'Enter'){
+                    addBlockedSite()
+                }
+            })
+        }catch(err){
+            console.log(err)
+        }
+
+        try{
+            // add a submit on enter by user for signin
+            const SIGNIN = document.querySelector('.signin-fields');
+            console.log(SIGNIN)
+            SIGNIN.addEventListener('keydown', (e) => {
+                if(e.key == 'Enter'){
+                    const USERNAME = SIGNIN.querySelector('#email');
+                    const PASSWORD = SIGNIN.querySelector('#password');
+                    signin(USERNAME.value, PASSWORD.value)
+                }
+            })
+        } catch(err){
+            console.log(err)
         }
     
     }

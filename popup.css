@@ -16,6 +16,7 @@ body {
     background-color: rgba(66,66,68,255);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 body .heading{
@@ -89,6 +90,8 @@ body .footing .enter input:focus{
 
 body .main .list{
     height: 100%;
+    width: 100%;
+    position: absolute;
     /* border-style: dotted; */
     display: flex;
     flex-direction: column;
@@ -196,7 +199,75 @@ body .main .list .listItem .listHeader p{
 } 
 
 
+/* lock screen */
+body .lock{
+    position:absolute;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(43, 43, 43);
+}
 
+body .lock .signin{
+    position: absolute;
+    display: flex;
+    
+    width: 100%;
+    height: 100%;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+body .lock .signin .text{
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgb(158, 158, 158);
+    font-style: italic;
+    margin-bottom: 1rem;
+    position: absolute;
+    bottom: 1rem;
+}
 
+body .lock .signin .signin-heading{
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
 
+body .lock .signin .signin-fields{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body .lock .signin .signin-fields input{
+    width: 100%;
+    height: 3rem;
+    border: none;
+    padding: 0.5rem;
+    /* margin: 0.5rem; */
+    background-color: transparent;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+body .lock .signin .signin-fields input:focus{
+    border-bottom: 1px solid white;
+}
+
+/* page for settings menu */
+
+body .main .settings{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    /* border-style: dotted; */
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

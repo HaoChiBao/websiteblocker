@@ -1,6 +1,6 @@
 const redirect_user = (URL) => {
-    console.log("redirecting user")
-    window.location.assign(URL)
+    console.log(`redirecting user to ${URL}`)
+    // window.location.assign(URL)
 }
 
 console.log('HaoChiBlock 0')
@@ -43,6 +43,8 @@ chrome.storage.local.get(["blockedSites"]).then((result) => {
     
     if(redirect){
         redirect_user(direction)
+    } else {
+        console.log('not redirecting')
     }
 
     console.log('HaoChiBlock 1')
